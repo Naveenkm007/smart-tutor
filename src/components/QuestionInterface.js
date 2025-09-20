@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import QuestionGenerationService from '../services/questionGenerationService';
 
 const QuestionInterface = ({ 
@@ -21,8 +22,13 @@ const QuestionInterface = ({
     totalPoints: 0,
     averageTime: 0
   });
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
 
+  const navigate = useNavigate();
   const questionService = new QuestionGenerationService();
+  
+  // Session completion threshold
+  const SESSION_COMPLETION_THRESHOLD = 10; // Complete session after 10 questions
 
   const generateNewQuestion = useCallback(async () => {
     setIsLoading(true);
@@ -72,6 +78,11 @@ const QuestionInterface = ({
       averageTime: ((sessionStats.averageTime * sessionStats.totalQuestions) + timeSpent) / (sessionStats.totalQuestions + 1)
     };
     setSessionStats(newStats);
+
+    // Check if session should be completed
+    if (newStats.totalQuestions >= SESSION_COMPLETION_THRESHOLD) {
+      setShowCompletionModal(true);
+    }
 
     // Update consecutive correct counter
     if (result.isCorrect) {
@@ -143,6 +154,24 @@ const QuestionInterface = ({
     });
   };
 
+  const handleBackToDashboard = () => {
+    if (currentUser?.role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/student');
+    }
+  };
+
+  const handleSessionComplete = () => {
+    setShowCompletionModal(false);
+    handleBackToDashboard();
+  };
+
+  const continueSession = () => {
+    setShowCompletionModal(false);
+    generateNewQuestion();
+  };
+
   if (isLoading) {
     return (
       <div className="question-interface loading">
@@ -167,8 +196,15 @@ const QuestionInterface = ({
 
   return (
     <div className="question-interface">
-      {/* Header with stats */}
+      {/* Header with stats and navigation */}
       <div className="question-header">
+        <button 
+          onClick={handleBackToDashboard}
+          className="btn-back"
+          title="Back to Dashboard"
+        >
+          ← Dashboard
+        </button>
         <div className="session-stats">
           <div className="stat">
             <span className="stat-label">Questions:</span>
@@ -237,6 +273,12 @@ const QuestionInterface = ({
         {!showResult ? (
           <div className="question-actions">
             <button 
+              onClick={handleBackToDashboard}
+              className="btn-secondary"
+            >
+              Back to Dashboard
+            </button>
+            <button 
               onClick={skipQuestion}
               className="btn-secondary"
             >
@@ -277,15 +319,65 @@ const QuestionInterface = ({
               )}
             </div>
 
-            <button 
-              onClick={generateNewQuestion}
-              className="btn-primary next-question-btn"
-            >
-              Next Question
-            </button>
+            <div className="result-actions">
+              <button 
+                onClick={handleBackToDashboard}
+                className="btn-secondary"
+              >
+                Back to Dashboard
+              </button>
+              <button 
+                onClick={generateNewQuestion}
+                className="btn-primary next-question-btn"
+              >
+                Next Question
+              </button>
+            </div>
           </div>
         )}
       </div>
+
+      {/* Session Completion Modal */}
+      {showCompletionModal && (
+        <div className="completion-modal-overlay">
+          <div className="completion-modal">
+            <div className="completion-header">
+              <h2>🎉 Great Session!</h2>
+              <p>You've completed {sessionStats.totalQuestions} questions</p>
+            </div>
+            
+            <div className="completion-stats">
+              <div className="completion-stat">
+                <span className="stat-number">{sessionStats.correctAnswers}</span>
+                <span className="stat-label">Correct Answers</span>
+              </div>
+              <div className="completion-stat">
+                <span className="stat-number">{sessionStats.totalPoints}</span>
+                <span className="stat-label">Points Earned</span>
+              </div>
+              <div className="completion-stat">
+                <span className="stat-number">{Math.round((sessionStats.correctAnswers / sessionStats.totalQuestions) * 100)}%</span>
+                <span className="stat-label">Accuracy</span>
+              </div>
+            </div>
+            
+            <div className="completion-actions">
+              <button 
+                onClick={handleSessionComplete}
+                className="btn-primary"
+              >
+                Back to Dashboard
+              </button>
+              <button 
+                onClick={continueSession}
+                className="btn-secondary"
+              >
+                Continue Practice
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
