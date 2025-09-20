@@ -145,3 +145,4 @@ SELECT
   (SELECT AVG(performance_score) FROM users WHERE role = 'student') as avg_student_performance,
   (SELECT COUNT(*) FROM user_progress WHERE completed = true) as total_completions,
   (SELECT SUM(total_time_spent) FROM users) as total_learning_time;
+  
