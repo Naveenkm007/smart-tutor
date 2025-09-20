@@ -1,528 +1,491 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAppContext } from '../App';
-import { LearningService } from '../services/supabaseClient';
-import LoadingSpinner from './LoadingSpinner';
-import { FaUsers, FaBook, FaChartBar, FaCog, FaUserShield, FaTrash, FaEdit, FaEye } from 'react-icons/fa';
-
-// Constants
-const ADMIN_SECTIONS = {
-  OVERVIEW: 'overview',
-  USERS: 'users',
-  CONTENT: 'content',
-  SETTINGS: 'settings'
-};
-
-const USER_ROLES = {
-  ALL: 'all',
-  STUDENT: 'student',
-  TEACHER: 'teacher',
-  ADMIN: 'admin'
-};
-
-const FALLBACK_DATA = {
-  subjects: [
-    { id: '1', name: 'Mathematics', description: 'Learn math concepts', icon: '🔢' },
-    { id: '2', name: 'Science', description: 'Explore science', icon: '🔬' },
-    { id: '3', name: 'English', description: 'Language arts', icon: '📚' }
-  ],
-  lessons: [
-    { id: '1', title: 'Introduction to Algebra', description: 'Basic algebra concepts', difficulty: 'beginner', duration: 30 },
-    { id: '2', title: 'Basic Chemistry', description: 'Chemical reactions', difficulty: 'intermediate', duration: 45 }
-  ]
-};
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { 
+  FaHome, 
+  FaUsers, 
+  FaChartLine, 
+  FaServer, 
+  FaCog, 
+  FaSearch, 
+  FaBell, 
+  FaUserCircle,
+  FaEdit,
+  FaTrash,
+  FaPlus,
+  FaDownload,
+  FaFilter,
+  FaEye,
+  FaChevronDown,
+  FaSignOutAlt
+} from 'react-icons/fa';
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
-  const { currentUser, handleLogout } = useAppContext();
-  
-  // State management
-  const [activeSection, setActiveSection] = useState(ADMIN_SECTIONS.OVERVIEW);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [activeSection, setActiveSection] = useState('overview');
   const [users, setUsers] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [lessons, setLessons] = useState([]);
-  const [analytics, setAnalytics] = useState(null);
-  const [filterRole, setFilterRole] = useState(USER_ROLES.ALL);
+  const [notifications, setNotifications] = useState(3);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const navigate = useNavigate();
 
-  // Data fetching utilities
-  const fetchWithFallback = useCallback(async (fetchFn, fallbackData = []) => {
-    try {
-      const data = await fetchFn();
-      console.log(`Fetched data:`, data);
-      return data || fallbackData;
-    } catch (error) {
-      console.error(`Data fetch failed:`, error);
-      return fallbackData;
-    }
-  }, []);
+  const navigationItems = [
+    { id: 'overview', label: 'Dashboard Overview', icon: FaHome },
+    { id: 'users', label: 'User Management', icon: FaUsers },
+    { id: 'analytics', label: 'Analytics & Reports', icon: FaChartLine },
+    { id: 'system', label: 'System Health', icon: FaServer },
+    { id: 'settings', label: 'Settings', icon: FaCog }
+  ];
 
-  const generateStatistics = useCallback((usersData, subjectsData, lessonsData) => {
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    
-    return {
-      totalUsers: usersData?.length || 0,
-      totalSubjects: subjectsData?.length || 0,
-      totalLessons: lessonsData?.length || 0,
-      activeUsers: usersData?.filter(u => 
-        u.last_login && u.last_login > weekAgo
-      ).length || 0
-    };
-  }, []);
-
-  const loadAdminData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      console.log('Loading admin data...');
-      
-      // Fetch all data concurrently with fallbacks
-      const [usersData, subjectsData, lessonsData] = await Promise.all([
-        fetchWithFallback(() => LearningService.getAllUsers(), []),
-        fetchWithFallback(() => LearningService.getSubjects(), FALLBACK_DATA.subjects),
-        fetchWithFallback(() => LearningService.getAllLessons(), FALLBACK_DATA.lessons)
-      ]);
-      
-      // Update state
-      setUsers(usersData);
-      setSubjects(subjectsData);
-      setLessons(lessonsData);
-      
-      // Generate analytics
-      const stats = generateStatistics(usersData, subjectsData, lessonsData);
-      setAnalytics(stats);
-      
-      console.log('Admin data loaded successfully', { 
-        users: usersData?.length, 
-        subjects: subjectsData?.length, 
-        lessons: lessonsData?.length 
-      });
-      
-    } catch (error) {
-      console.error('Failed to load admin data:', error);
-      setError('Failed to load admin data. Using demo data.');
-      
-      // Set fallback data on complete failure
-      setUsers([]);
-      setSubjects(FALLBACK_DATA.subjects);
-      setLessons(FALLBACK_DATA.lessons);
-      setAnalytics(generateStatistics([], FALLBACK_DATA.subjects, FALLBACK_DATA.lessons));
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchWithFallback, generateStatistics]);
-
-  // Initialize admin data on mount
+  // Mock data for demonstration
   useEffect(() => {
-    loadAdminData();
-  }, [loadAdminData]);
-
-  // Memoized filtered users for performance
-  const filteredUsers = useMemo(() => {
-    if (!Array.isArray(users)) return [];
-    
-    return filterRole === USER_ROLES.ALL 
-      ? users 
-      : users.filter(user => user.role === filterRole);
-  }, [users, filterRole]);
-
-  // User management handlers
-  const handleUserRoleChange = useCallback(async (userId, newRole) => {
-    if (!userId || !newRole) return;
-    
-    try {
-      await LearningService.updateUserRole(userId, newRole);
-      setUsers(prevUsers => 
-        prevUsers.map(user => 
-          user.id === userId ? { ...user, role: newRole } : user
-        )
-      );
-    } catch (error) {
-      console.error('Failed to update user role:', error);
-      setError('Failed to update user role. Please try again.');
-    }
+    setUsers([
+      {
+        id: 1,
+        name: 'John Doe',
+        email: 'john@example.com',
+        role: 'Student',
+        status: 'Active',
+        lastLogin: '2024-01-15',
+        courses: 5
+      },
+      {
+        id: 2,
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+        role: 'Teacher',
+        status: 'Active',
+        lastLogin: '2024-01-14',
+        courses: 12
+      },
+      {
+        id: 3,
+        name: 'Bob Johnson',
+        email: 'bob@example.com',
+        role: 'Student',
+        status: 'Inactive',
+        lastLogin: '2024-01-10',
+        courses: 3
+      }
+    ]);
   }, []);
 
-  const handleDeleteUser = useCallback(async (userId) => {
-    if (!userId) return;
-    
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this user? This action cannot be undone.'
-    );
-    
-    if (!confirmDelete) return;
-    
-    try {
-      await LearningService.deleteUser(userId);
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-    } catch (error) {
-      console.error('Failed to delete user:', error);
-      setError('Failed to delete user. Please try again.');
-    }
-  }, []);
+  const handleLogout = () => {
+    navigate('/');
+  };
 
-  const formatUserDetails = useCallback((user) => {
-    const fields = [
-      ['Name', user.name],
-      ['Email', user.email],
-      ['Phone', user.phone],
-      ['Grade', user.grade],
-      ['Class', user.class],
-      ['School', user.school],
-      ['Parent Name', user.parent_name],
-      ['Parent Email', user.parent_email],
-      ['Parent Phone', user.parent_phone],
-      ['Address', user.address],
-      ['City', user.city],
-      ['State', user.state],
-      ['Country', user.country],
-      ['Status', user.status || 'active'],
-      ['Role', user.role || 'student'],
-      ['Subscription', user.subscription_type || 'free'],
-      ['Total Lessons', user.total_lessons_completed || 0],
-      ['Time Spent', `${user.total_time_spent || 0} minutes`],
-      ['Performance Score', `${user.performance_score || 0}%`],
-      ['Login Count', user.login_count || 0],
-      ['Last Login', user.last_login ? new Date(user.last_login).toLocaleString() : 'Never'],
-      ['Created', user.created_at ? new Date(user.created_at).toLocaleString() : 'Unknown']
-    ];
-    
-    return fields
-      .map(([label, value]) => `${label}: ${value || 'N/A'}`)
-      .join('\n');
-  }, []);
-
-  const handleViewUser = useCallback((user) => {
-    if (!user) return;
-    
-    const userDetails = `User Details:\n\n${formatUserDetails(user)}`;
-    alert(userDetails); // TODO: Replace with proper modal component
-  }, [formatUserDetails]);
-
-  // Loading and error states
-  if (loading) return <LoadingSpinner message="Loading admin dashboard..." />;
-  
-  if (error) {
-    return (
-      <div className="error-container">
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()} className="btn-primary">
-          Reload Page
-        </button>
+  const MetricsCard = ({ title, value, subtitle, color, icon: Icon }) => (
+    <div className={`metrics-card ${color}`}>
+      <div className="metrics-content">
+        <div className="metrics-text">
+          <h3>{title}</h3>
+          <div className="metrics-value">{value}</div>
+          <p className="metrics-subtitle">{subtitle}</p>
+        </div>
+        <div className="metrics-icon">
+          <Icon />
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+
+  const renderOverview = () => (
+    <div className="overview-section">
+      <div className="section-header">
+        <h2>Dashboard Overview</h2>
+        <p>Monitor key metrics and system performance</p>
+      </div>
+      
+      <div className="metrics-grid">
+        <MetricsCard
+          title="Total Students"
+          value="1,247"
+          subtitle="+12% from last month"
+          color="blue"
+          icon={FaUsers}
+        />
+        <MetricsCard
+          title="Active Teachers"
+          value="89"
+          subtitle="+5% from last month"
+          color="green"
+          icon={FaUsers}
+        />
+        <MetricsCard
+          title="Courses Available"
+          value="342"
+          subtitle="+23 new this month"
+          color="orange"
+          icon={FaChartLine}
+        />
+        <MetricsCard
+          title="System Health"
+          value="99.9%"
+          subtitle="All systems operational"
+          color="purple"
+          icon={FaServer}
+        />
+      </div>
+
+      <div className="overview-charts">
+        <div className="chart-container">
+          <h3>Student Enrollment Trends</h3>
+          <div className="chart-placeholder">
+            <p>Chart will be rendered here</p>
+            <small>Integration with Chart.js pending</small>
+          </div>
+        </div>
+        <div className="chart-container">
+          <h3>Course Completion Rates</h3>
+          <div className="chart-placeholder">
+            <p>Chart will be rendered here</p>
+            <small>Integration with Chart.js pending</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderUsers = () => (
+    <div className="users-section">
+      <div className="section-header">
+        <h2>User Management</h2>
+        <div className="header-actions">
+          <button className="btn-secondary">
+            <FaFilter /> Filter
+          </button>
+          <button className="btn-secondary">
+            <FaDownload /> Export
+          </button>
+          <button className="btn-primary">
+            <FaPlus /> Add User
+          </button>
+        </div>
+      </div>
+
+      <div className="table-container">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Last Login</th>
+              <th>Courses</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user.id}>
+                <td>
+                  <div className="user-info">
+                    <FaUserCircle className="user-avatar" />
+                    <span>{user.name}</span>
+                  </div>
+                </td>
+                <td>{user.email}</td>
+                <td>
+                  <span className={`role-badge ${user.role.toLowerCase()}`}>
+                    {user.role}
+                  </span>
+                </td>
+                <td>
+                  <span className={`status-badge ${user.status.toLowerCase()}`}>
+                    {user.status}
+                  </span>
+                </td>
+                <td>{user.lastLogin}</td>
+                <td>{user.courses}</td>
+                <td>
+                  <div className="action-buttons">
+                    <button className="btn-icon" title="View">
+                      <FaEye />
+                    </button>
+                    <button className="btn-icon" title="Edit">
+                      <FaEdit />
+                    </button>
+                    <button className="btn-icon danger" title="Delete">
+                      <FaTrash />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  const renderAnalytics = () => (
+    <div className="analytics-section">
+      <div className="section-header">
+        <h2>Analytics & Reports</h2>
+        <p>Comprehensive insights and data analysis</p>
+      </div>
+      
+      <div className="analytics-grid">
+        <div className="analytics-card">
+          <h3>Learning Progress</h3>
+          <div className="chart-placeholder">
+            <p>Progress analytics chart</p>
+          </div>
+        </div>
+        <div className="analytics-card">
+          <h3>Course Performance</h3>
+          <div className="chart-placeholder">
+            <p>Performance metrics chart</p>
+          </div>
+        </div>
+        <div className="analytics-card">
+          <h3>User Engagement</h3>
+          <div className="chart-placeholder">
+            <p>Engagement analytics chart</p>
+          </div>
+        </div>
+        <div className="analytics-card">
+          <h3>Revenue Insights</h3>
+          <div className="chart-placeholder">
+            <p>Revenue analytics chart</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSystemHealth = () => (
+    <div className="system-section">
+      <div className="section-header">
+        <h2>System Health</h2>
+        <p>Monitor system performance and server status</p>
+      </div>
+      
+      <div className="system-grid">
+        <div className="system-card">
+          <h3>Server Status</h3>
+          <div className="status-indicator online">
+            <span className="status-dot"></span>
+            <span>All servers online</span>
+          </div>
+          <div className="server-list">
+            <div className="server-item">
+              <span>Web Server</span>
+              <span className="status online">Online</span>
+            </div>
+            <div className="server-item">
+              <span>Database Server</span>
+              <span className="status online">Online</span>
+            </div>
+            <div className="server-item">
+              <span>API Server</span>
+              <span className="status online">Online</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="system-card">
+          <h3>Performance Metrics</h3>
+          <div className="metric-item">
+            <span>CPU Usage</span>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '45%'}}></div>
+            </div>
+            <span>45%</span>
+          </div>
+          <div className="metric-item">
+            <span>Memory Usage</span>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '68%'}}></div>
+            </div>
+            <span>68%</span>
+          </div>
+          <div className="metric-item">
+            <span>Disk Usage</span>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '32%'}}></div>
+            </div>
+            <span>32%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSettings = () => (
+    <div className="settings-section">
+      <div className="section-header">
+        <h2>System Settings</h2>
+        <p>Configure system preferences and security settings</p>
+      </div>
+      
+      <div className="settings-grid">
+        <div className="settings-card">
+          <h3>General Settings</h3>
+          <div className="setting-item">
+            <label>System Name</label>
+            <input type="text" defaultValue="Smart Tutor Dashboard" />
+          </div>
+          <div className="setting-item">
+            <label>Default Language</label>
+            <select defaultValue="en">
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+            </select>
+          </div>
+          <div className="setting-item">
+            <label>Time Zone</label>
+            <select defaultValue="UTC">
+              <option value="UTC">UTC</option>
+              <option value="EST">EST</option>
+              <option value="PST">PST</option>
+            </select>
+          </div>
+        </div>
+        
+        <div className="settings-card">
+          <h3>Security Settings</h3>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" defaultChecked />
+              Enable Two-Factor Authentication
+            </label>
+          </div>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" defaultChecked />
+              Require Strong Passwords
+            </label>
+          </div>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" />
+              Enable Session Timeout
+            </label>
+          </div>
+        </div>
+        
+        <div className="settings-card">
+          <h3>Notification Settings</h3>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" defaultChecked />
+              Email Notifications
+            </label>
+          </div>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" defaultChecked />
+              Push Notifications
+            </label>
+          </div>
+          <div className="setting-item">
+            <label>
+              <input type="checkbox" />
+              SMS Notifications
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div className="settings-actions">
+        <button className="btn-secondary">Reset to Defaults</button>
+        <button className="btn-primary">Save Changes</button>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'overview':
+        return renderOverview();
+      case 'users':
+        return renderUsers();
+      case 'analytics':
+        return renderAnalytics();
+      case 'system':
+        return renderSystemHealth();
+      case 'settings':
+        return renderSettings();
+      default:
+        return renderOverview();
+    }
+  };
 
   return (
-    <div id="admin-dashboard" className="page active">
-      <nav className="dashboard-nav">
-        <div className="nav-brand">
-          <h2>👨‍💼 Admin Dashboard</h2>
+    <div className="admin-dashboard">
+      {/* Header */}
+      <header className="admin-header">
+        <div className="header-left">
+          <h1>Smart Tutor Admin</h1>
         </div>
-        <div className="nav-menu">
-          <button 
-            className={`nav-item ${activeSection === ADMIN_SECTIONS.OVERVIEW ? 'active' : ''}`}
-            onClick={() => setActiveSection(ADMIN_SECTIONS.OVERVIEW)}
-          >
-            <FaChartBar /> Overview
-          </button>
-          <button 
-            className={`nav-item ${activeSection === ADMIN_SECTIONS.USERS ? 'active' : ''}`}
-            onClick={() => setActiveSection(ADMIN_SECTIONS.USERS)}
-          >
-            <FaUsers /> Users
-          </button>
-          <button 
-            className={`nav-item ${activeSection === ADMIN_SECTIONS.CONTENT ? 'active' : ''}`}
-            onClick={() => setActiveSection(ADMIN_SECTIONS.CONTENT)}
-          >
-            <FaBook /> Content
-          </button>
-          <button 
-            className={`nav-item ${activeSection === ADMIN_SECTIONS.SETTINGS ? 'active' : ''}`}
-            onClick={() => setActiveSection(ADMIN_SECTIONS.SETTINGS)}
-          >
-            <FaCog /> Settings
-          </button>
-        </div>
-        <div className="nav-user">
-          <span>Welcome, {currentUser?.name}</span>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
-        </div>
-      </nav>
-
-      <div className="dashboard-content">
-        {/* Overview Section */}
-        {activeSection === ADMIN_SECTIONS.OVERVIEW && (
-          <div className="section active">
-            <h2>System Overview</h2>
-            <div className="stats-grid">
-              <div className="stat-card">
-                <FaUsers className="stat-icon" />
-                <div className="stat-content">
-                  <h3>{analytics?.totalUsers || 0}</h3>
-                  <p>Total Users</p>
-                </div>
-              </div>
-              <div className="stat-card">
-                <FaBook className="stat-icon" />
-                <div className="stat-content">
-                  <h3>{analytics?.totalSubjects || 0}</h3>
-                  <p>Subjects</p>
-                </div>
-              </div>
-              <div className="stat-card">
-                <FaChartBar className="stat-icon" />
-                <div className="stat-content">
-                  <h3>{analytics?.totalLessons || 0}</h3>
-                  <p>Lessons</p>
-                </div>
-              </div>
-              <div className="stat-card">
-                <FaUserShield className="stat-icon" />
-                <div className="stat-content">
-                  <h3>{analytics?.activeUsers || 0}</h3>
-                  <p>Active Users</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="recent-activity">
-              <h3>Recent Activity</h3>
-              <div className="activity-list">
-                <div className="activity-item">
-                  <span className="activity-time">2 hours ago</span>
-                  <span className="activity-desc">New user registered: John Doe</span>
-                </div>
-                <div className="activity-item">
-                  <span className="activity-time">4 hours ago</span>
-                  <span className="activity-desc">Lesson completed: Introduction to Mathematics</span>
-                </div>
-                <div className="activity-item">
-                  <span className="activity-time">1 day ago</span>
-                  <span className="activity-desc">New subject created: Physics</span>
-                </div>
-              </div>
-            </div>
+        
+        <div className="header-center">
+          <div className="search-container">
+            <FaSearch className="search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search users, courses, analytics..." 
+              className="search-input"
+            />
           </div>
-        )}
-
-        {/* Users Management Section */}
-        {activeSection === ADMIN_SECTIONS.USERS && (
-          <div className="section active">
-            <div className="section-header">
-              <h2>User Management</h2>
-              <div className="filters">
-                <select value={filterRole} onChange={(e) => setFilterRole(e.target.value)}>
-                  <option value={USER_ROLES.ALL}>All Roles</option>
-                  <option value={USER_ROLES.STUDENT}>Students</option>
-                  <option value={USER_ROLES.TEACHER}>Teachers</option>
-                  <option value={USER_ROLES.ADMIN}>Admins</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="users-table-container">
-              <div className="table-wrapper">
-                <table className="users-table">
-                  <thead>
-                    <tr>
-                      <th>Avatar</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Grade/Class</th>
-                      <th>Phone</th>
-                      <th>Role</th>
-                      <th>Status</th>
-                      <th>Last Login</th>
-                      <th>Total Lessons</th>
-                      <th>Performance</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(filteredUsers) && filteredUsers.map(user => (
-                      <tr key={user.id}>
-                        <td>
-                          <div className="user-avatar">
-                            {user.avatar_url ? (
-                              <img src={user.avatar_url} alt={user.name} />
-                            ) : (
-                              <div className="avatar-placeholder">
-                                {(user.name || user.email)?.charAt(0)?.toUpperCase()}
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="user-name-cell">
-                            <strong>{user.name || 'N/A'}</strong>
-                            {user.school && <small>{user.school}</small>}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="user-email">
-                            {user.email}
-                            {user.parent_email && <small>Parent: {user.parent_email}</small>}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="grade-info">
-                            {user.grade ? `Grade ${user.grade}` : 'N/A'}
-                            {user.class && <small>Class: {user.class}</small>}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="phone-info">
-                            {user.phone || 'N/A'}
-                            {user.parent_phone && <small>Parent: {user.parent_phone}</small>}
-                          </div>
-                        </td>
-                        <td>
-                          <select 
-                            className="role-select"
-                            value={user.role || 'student'} 
-                            onChange={(e) => handleUserRoleChange(user.id, e.target.value)}
-                          >
-                            <option value="student">Student</option>
-                            <option value="teacher">Teacher</option>
-                            <option value="admin">Admin</option>
-                          </select>
-                        </td>
-                        <td>
-                          <span className={`status-badge ${user.status || 'active'}`}>
-                            {user.status || 'active'}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="login-info">
-                            {user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}
-                            <small>Logins: {user.login_count || 0}</small>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="lessons-info">
-                            <strong>{user.total_lessons_completed || 0}</strong>
-                            <small>{Math.floor((user.total_time_spent || 0) / 60)}h {(user.total_time_spent || 0) % 60}m</small>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="performance-score">
-                            <div className="score-circle">
-                              {user.performance_score || 0}%
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="action-buttons">
-                            <button 
-                              className="action-btn view-btn"
-                              onClick={() => handleViewUser(user)}
-                              title="View Details"
-                            >
-                              <FaEye />
-                            </button>
-                            <button className="action-btn edit-btn" title="Edit User">
-                              <FaEdit />
-                            </button>
-                            <button 
-                              className="action-btn delete-btn"
-                              onClick={() => handleDeleteUser(user.id)}
-                              title="Delete User"
-                            >
-                              <FaTrash />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        </div>
+        
+        <div className="header-right">
+          <div className="notification-container">
+            <FaBell className="notification-icon" />
+            {notifications > 0 && (
+              <span className="notification-badge">{notifications}</span>
+            )}
           </div>
-        )}
-
-        {/* Content Management Section */}
-        {activeSection === ADMIN_SECTIONS.CONTENT && (
-          <div className="section active">
-            <h2>Content Management</h2>
+          
+          <div className="profile-container">
+            <div 
+              className="profile-trigger"
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+            >
+              <FaUserCircle className="profile-icon" />
+              <span>Admin User</span>
+              <FaChevronDown className="dropdown-icon" />
+            </div>
             
-            <div className="content-tabs">
-              <div className="tab-content">
-                <h3>Subjects ({Array.isArray(subjects) ? subjects.length : 0})</h3>
-                <div className="content-grid">
-                  {Array.isArray(subjects) && subjects.map(subject => (
-                    <div key={subject.id} className="content-card">
-                      <div className="content-icon">{subject.icon}</div>
-                      <h4>{subject.name}</h4>
-                      <p>{subject.description}</p>
-                      <div className="content-actions">
-                        <button className="action-btn edit-btn">
-                          <FaEdit /> Edit
-                        </button>
-                        <button className="action-btn delete-btn">
-                          <FaTrash /> Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <h3>Recent Lessons ({Array.isArray(lessons) ? lessons.length : 0})</h3>
-                <div className="lessons-list">
-                  {Array.isArray(lessons) && lessons.slice(0, 5).map(lesson => (
-                    <div key={lesson.id} className="lesson-item">
-                      <div className="lesson-info">
-                        <h4>{lesson.title}</h4>
-                        <p>{lesson.description}</p>
-                        <span className="lesson-meta">
-                          Difficulty: {lesson.difficulty} | Duration: {lesson.duration || 30}min
-                        </span>
-                      </div>
-                      <div className="lesson-actions">
-                        <button className="action-btn edit-btn">
-                          <FaEdit />
-                        </button>
-                        <button className="action-btn delete-btn">
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {showProfileMenu && (
+              <div className="profile-menu">
+                <a href="#profile">Profile Settings</a>
+                <a href="#preferences">Preferences</a>
+                <button onClick={handleLogout} className="logout-btn">
+                  <FaSignOutAlt /> Logout
+                </button>
               </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
+      </header>
 
-        {/* Settings Section */}
-        {activeSection === ADMIN_SECTIONS.SETTINGS && (
-          <div className="section active">
-            <h2>System Settings</h2>
-            <div className="settings-grid">
-              <div className="setting-card">
-                <h3>Database Configuration</h3>
-                <p>Supabase connection status: <span className="status connected">Connected</span></p>
-                <p>Total tables: 6</p>
-                <button className="btn-primary">View Database</button>
-              </div>
-              <div className="setting-card">
-                <h3>Authentication</h3>
-                <p>Google OAuth: <span className="status connected">Enabled</span></p>
-                <p>Email/Password: <span className="status connected">Enabled</span></p>
-                <button className="btn-primary">Configure Auth</button>
-              </div>
-              <div className="setting-card">
-                <h3>System Backup</h3>
-                <p>Last backup: {new Date().toLocaleDateString()}</p>
-                <p>Auto-backup: <span className="status connected">Enabled</span></p>
-                <button className="btn-primary">Create Backup</button>
-              </div>
-            </div>
-          </div>
-        )}
+      <div className="admin-body">
+        {/* Sidebar */}
+        <aside className="admin-sidebar">
+          <nav className="sidebar-nav">
+            {navigationItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+                  onClick={() => setActiveSection(item.id)}
+                >
+                  <Icon className="nav-icon" />
+                  <span className="nav-label">{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <main className="admin-main">
+          {renderContent()}
+        </main>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import StudentDashboard from './components/StudentDashboard';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
+import AdminDashboard from './components/AdminDashboard';
 import LoadingSpinner from './components/LoadingSpinner';
 import ProfileModal from './components/modals/ProfileModal';
 import AssessmentModal from './components/modals/AssessmentModal';
@@ -287,6 +288,7 @@ function App() {
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
             <Route path="/signup" element={<SignUpPage onSignUp={handleLogin} />} />
             <Route path="/student" element={<StudentDashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/questions" element={
               showQuestionInterface ? (
                 <QuestionInterface 
