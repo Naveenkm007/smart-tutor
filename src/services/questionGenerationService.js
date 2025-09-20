@@ -3,6 +3,7 @@ class QuestionGenerationService {
   constructor() {
     this.apiEndpoint = process.env.REACT_APP_LLM_API_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
     this.apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+    this.usedQuestions = new Set(); // Track used questions to avoid repetition
   }
 
   /**
@@ -123,114 +124,192 @@ Make the question educational, practical, and appropriate for the specified leve
    * Get demo questions when API is not available
    */
   getDemoQuestion(language, level) {
-    const demoQuestions = {
-      cpp: {
-        basic: {
-          question: "What is the correct way to declare an integer variable in C++?",
-          options: ["int x;", "integer x;", "var x;", "number x;"],
-          correctAnswer: 0,
-          explanation: "In C++, 'int' is the keyword used to declare integer variables. The syntax is 'int variableName;'",
-          codeExample: "int age = 25;\nint count;",
-          topic: "Variable Declaration",
-          points: 10
-        },
-        intermediate: {
-          question: "What will be the output of this C++ code?\n```cpp\nint arr[] = {1, 2, 3, 4, 5};\nint *ptr = arr + 2;\ncout << *ptr << endl;\n```",
-          options: ["1", "2", "3", "4"],
-          correctAnswer: 2,
-          explanation: "arr + 2 moves the pointer to the third element (index 2) of the array. *ptr dereferences it to get the value 3.",
-          codeExample: "int arr[] = {1, 2, 3, 4, 5};\nint *ptr = arr + 2;  // Points to arr[2]\ncout << *ptr;  // Outputs 3",
-          topic: "Pointers and Arrays",
-          points: 20
-        },
-        advanced: {
-          question: "Which of the following demonstrates proper RAII (Resource Acquisition Is Initialization) in C++?",
-          options: [
-            "Using malloc() and free()",
-            "Using smart pointers like unique_ptr",
-            "Manual resource management",
-            "Global variables for resources"
-          ],
-          correctAnswer: 1,
-          explanation: "RAII is best implemented using smart pointers like unique_ptr, shared_ptr which automatically manage resource lifetime through constructors and destructors.",
-          codeExample: "std::unique_ptr<int[]> data(new int[100]);\n// Automatically deallocated when out of scope",
-          topic: "RAII and Smart Pointers",
-          points: 30
-        }
-      },
-      java: {
-        basic: {
-          question: "Which keyword is used to create a class in Java?",
-          options: ["class", "Class", "new", "object"],
-          correctAnswer: 0,
-          explanation: "The 'class' keyword is used to define a class in Java. It's case-sensitive and must be lowercase.",
-          codeExample: "public class MyClass {\n    // class body\n}",
-          topic: "Class Declaration",
-          points: 10
-        },
-        intermediate: {
-          question: "What is the purpose of the 'final' keyword when applied to a method in Java?",
-          options: [
-            "Makes the method static",
-            "Prevents method overriding",
-            "Makes the method abstract", 
-            "Increases method performance"
-          ],
-          correctAnswer: 1,
-          explanation: "The 'final' keyword prevents a method from being overridden in subclasses, ensuring the method implementation remains unchanged.",
-          codeExample: "public final void display() {\n    // This method cannot be overridden\n}",
-          topic: "Method Modifiers",
-          points: 20
-        },
-        advanced: {
-          question: "Which design pattern is demonstrated by Java's Collections.synchronizedList()?",
-          options: ["Decorator Pattern", "Adapter Pattern", "Proxy Pattern", "Wrapper Pattern"],
-          correctAnswer: 0,
-          explanation: "Collections.synchronizedList() uses the Decorator pattern to add thread-safety functionality to existing list implementations without modifying their structure.",
-          codeExample: "List<String> syncList = Collections.synchronizedList(new ArrayList<>());",
-          topic: "Design Patterns",
-          points: 30
-        }
-      },
-      python: {
-        basic: {
-          question: "How do you create a list in Python?",
-          options: ["list = []", "list = ()", "list = {}", "list = <>"],
-          correctAnswer: 0,
-          explanation: "Square brackets [] are used to create lists in Python. Lists are ordered, mutable collections that can hold different data types.",
-          codeExample: "my_list = [1, 2, 3, 'hello']\nempty_list = []",
-          topic: "Data Structures",
-          points: 10
-        },
-        intermediate: {
-          question: "What is the output of this Python code?\n```python\ndef func(lst=[]):\n    lst.append(1)\n    return lst\n\nprint(func())\nprint(func())\n```",
-          options: ["[1] [1]", "[1] [1, 1]", "Error", "[] []"],
-          correctAnswer: 1,
-          explanation: "This demonstrates the mutable default argument trap. The default list is shared between function calls, so each call appends to the same list.",
-          codeExample: "# Correct way:\ndef func(lst=None):\n    if lst is None:\n        lst = []\n    lst.append(1)\n    return lst",
-          topic: "Function Default Arguments",
-          points: 20
-        },
-        advanced: {
-          question: "Which Python feature allows a function to maintain state between calls without using global variables?",
-          options: ["Lambda functions", "Closures", "Decorators", "Generators"],
-          correctAnswer: 1,
-          explanation: "Closures allow inner functions to access variables from the outer function's scope, maintaining state between calls even after the outer function returns.",
-          codeExample: "def counter():\n    count = 0\n    def increment():\n        nonlocal count\n        count += 1\n        return count\n    return increment\n\nc = counter()\nprint(c())  # 1\nprint(c())  # 2",
-          topic: "Closures and Scope",
-          points: 30
-        }
+    const questionPool = this.getQuestionPool();
+    const availableQuestions = questionPool[language]?.[level] || questionPool.cpp.basic;
+    
+    // Filter out used questions if we have enough options
+    let questionsToChooseFrom = availableQuestions;
+    if (availableQuestions.length > 1) {
+      const unusedQuestions = availableQuestions.filter(q => 
+        !this.usedQuestions.has(`${language}_${level}_${q.id}`)
+      );
+      
+      if (unusedQuestions.length > 0) {
+        questionsToChooseFrom = unusedQuestions;
+      } else {
+        // Reset used questions if all have been used
+        this.usedQuestions.clear();
+        questionsToChooseFrom = availableQuestions;
       }
-    };
-
-    const questionData = demoQuestions[language]?.[level] || demoQuestions.python.basic;
+    }
+    
+    // Randomly select a question
+    const randomIndex = Math.floor(Math.random() * questionsToChooseFrom.length);
+    const selectedQuestion = questionsToChooseFrom[randomIndex];
+    
+    const questionId = `${language}_${level}_${selectedQuestion.id}_${Date.now()}`;
+    this.usedQuestions.add(`${language}_${level}_${selectedQuestion.id}`);
     
     return {
-      id: `${language}_${level}_${Date.now()}`,
+      id: questionId,
       language,
       level,
       timestamp: new Date().toISOString(),
-      ...questionData
+      ...selectedQuestion
+    };
+  }
+
+  /**
+   * Get comprehensive question pool with multiple questions per level
+   */
+  getQuestionPool() {
+    return {
+      cpp: {
+        basic: [
+          {
+            id: "cpp_basic_1",
+            question: "What is the correct way to declare an integer variable in C++?",
+            options: ["int x;", "integer x;", "var x;", "number x;"],
+            correctAnswer: 0,
+            explanation: "In C++, 'int' is the keyword used to declare integer variables. The syntax is 'int variableName;'",
+            codeExample: "int age = 25;\nint count;",
+            topic: "Variable Declaration",
+            points: 10
+          },
+          {
+            id: "cpp_basic_2",
+            question: "Which of the following is the correct syntax for a C++ comment?",
+            options: ["// This is a comment", "# This is a comment", "/* This is a comment", "' This is a comment"],
+            correctAnswer: 0,
+            explanation: "C++ uses // for single-line comments and /* */ for multi-line comments.",
+            codeExample: "// Single line comment\n/* Multi-line\n   comment */",
+            topic: "Comments",
+            points: 10
+          },
+          {
+            id: "cpp_basic_3",
+            question: "What is the output of: cout << 5 + 3 << endl;",
+            options: ["5 + 3", "8", "53", "Error"],
+            correctAnswer: 1,
+            explanation: "The expression 5 + 3 is evaluated first, resulting in 8, which is then printed.",
+            codeExample: "#include <iostream>\nusing namespace std;\nint main() {\n    cout << 5 + 3 << endl;\n    return 0;\n}",
+            topic: "Basic Operations",
+            points: 10
+          },
+          {
+            id: "cpp_basic_4",
+            question: "Which header file is required for input/output operations in C++?",
+            options: ["<stdio.h>", "<iostream>", "<conio.h>", "<string.h>"],
+            correctAnswer: 1,
+            explanation: "<iostream> is the standard header for input/output operations, providing cout, cin, endl, etc.",
+            codeExample: "#include <iostream>\nusing namespace std;",
+            topic: "Header Files",
+            points: 10
+          }
+        ],
+        intermediate: [
+          {
+            id: "cpp_inter_1",
+            question: "What will be the output of this C++ code?\nint arr[] = {1, 2, 3, 4, 5};\nint *ptr = arr + 2;\ncout << *ptr;",
+            options: ["1", "2", "3", "4"],
+            correctAnswer: 2,
+            explanation: "arr + 2 moves the pointer to the third element (index 2) of the array. *ptr dereferences it to get the value 3.",
+            codeExample: "int arr[] = {1, 2, 3, 4, 5};\nint *ptr = arr + 2;  // Points to arr[2]\ncout << *ptr;  // Outputs 3",
+            topic: "Pointers and Arrays",
+            points: 20
+          },
+          {
+            id: "cpp_inter_2",
+            question: "What is the difference between ++i and i++?",
+            options: [
+              "No difference",
+              "++i increments before use, i++ increments after use",
+              "++i is faster than i++",
+              "i++ can only be used in loops"
+            ],
+            correctAnswer: 1,
+            explanation: "++i (pre-increment) increments the value before using it in the expression. i++ (post-increment) uses the current value first, then increments.",
+            codeExample: "int i = 5;\nint a = ++i;  // i=6, a=6\nint j = 5;\nint b = j++;  // j=6, b=5",
+            topic: "Operators",
+            points: 20
+          }
+        ],
+        advanced: [
+          {
+            id: "cpp_adv_1",
+            question: "Which of the following demonstrates proper RAII (Resource Acquisition Is Initialization) in C++?",
+            options: [
+              "Using malloc() and free()",
+              "Using smart pointers like unique_ptr",
+              "Manual resource management",
+              "Global variables for resources"
+            ],
+            correctAnswer: 1,
+            explanation: "RAII is best implemented using smart pointers like unique_ptr, shared_ptr which automatically manage resource lifetime through constructors and destructors.",
+            codeExample: "std::unique_ptr<int[]> data(new int[100]);\n// Automatically deallocated when out of scope",
+            topic: "RAII and Smart Pointers",
+            points: 30
+          }
+        ]
+      },
+      python: {
+        basic: [
+          {
+            id: "python_basic_1",
+            question: "How do you create a list in Python?",
+            options: ["list = []", "list = ()", "list = {}", "list = <>"],
+            correctAnswer: 0,
+            explanation: "Square brackets [] are used to create lists in Python. Lists are ordered, mutable collections that can hold different data types.",
+            codeExample: "my_list = [1, 2, 3, 'hello']\nempty_list = []",
+            topic: "Data Structures",
+            points: 10
+          },
+          {
+            id: "python_basic_2",
+            question: "Which of the following is the correct way to print in Python 3?",
+            options: ["print 'Hello'", "print('Hello')", "echo 'Hello'", "console.log('Hello')"],
+            correctAnswer: 1,
+            explanation: "In Python 3, print is a function and requires parentheses: print('text')",
+            codeExample: "print('Hello, World!')\nprint('Python', 'is', 'awesome')",
+            topic: "Basic Syntax",
+            points: 10
+          },
+          {
+            id: "python_basic_3",
+            question: "What is the correct way to define a function in Python?",
+            options: ["function myFunc():", "def myFunc():", "func myFunc():", "define myFunc():"],
+            correctAnswer: 1,
+            explanation: "Python uses the 'def' keyword to define functions, followed by the function name and parentheses.",
+            codeExample: "def greet(name):\n    return f'Hello, {name}!'",
+            topic: "Functions",
+            points: 10
+          }
+        ],
+        intermediate: [
+          {
+            id: "python_inter_1",
+            question: "What is the output of this Python code?\ndef func(lst=[]):\n    lst.append(1)\n    return lst\n\nprint(func())\nprint(func())",
+            options: ["[1] [1]", "[1] [1, 1]", "Error", "[] []"],
+            correctAnswer: 1,
+            explanation: "This demonstrates the mutable default argument trap. The default list is shared between function calls, so each call appends to the same list.",
+            codeExample: "# Correct way:\ndef func(lst=None):\n    if lst is None:\n        lst = []\n    lst.append(1)\n    return lst",
+            topic: "Function Default Arguments",
+            points: 20
+          }
+        ],
+        advanced: [
+          {
+            id: "python_adv_1",
+            question: "Which Python feature allows a function to maintain state between calls without using global variables?",
+            options: ["Lambda functions", "Closures", "Decorators", "Generators"],
+            correctAnswer: 1,
+            explanation: "Closures allow inner functions to access variables from the outer function's scope, maintaining state between calls even after the outer function returns.",
+            codeExample: "def counter():\n    count = 0\n    def increment():\n        nonlocal count\n        count += 1\n        return count\n    return increment\n\nc = counter()\nprint(c())  # 1\nprint(c())  # 2",
+            topic: "Closures and Scope",
+            points: 30
+          }
+        ]
+      }
     };
   }
 

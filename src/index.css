@@ -3593,6 +3593,44 @@ textarea.form-control {
   height: 20px;
 }
 
+.google-signin-btn {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  color: #374151;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.google-signin-btn:hover:not(:disabled) {
+  border-color: #d1d5db;
+  background: #f9fafb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.google-signin-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .google-signin-container {
   margin-bottom: 1.5rem;
   width: 100%;

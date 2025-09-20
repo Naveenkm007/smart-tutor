@@ -510,11 +510,41 @@ export class LearningService {
   }
 
   /**
-   * User Authentication: Sign in user
-   * @param {string} email - User email
-   * @param {string} password - User password
+   * User Authentication: Sign in with Google
    * @returns {Promise<{data: any, error: any}>}
    */
+  static async signInWithGoogle() {
+    if (CONFIG.DEMO_MODE) {
+      // Simulate Google sign-in in demo mode
+      const demoGoogleUser = {
+        id: 'google-demo-user',
+        email: 'demo@gmail.com',
+        name: 'Demo Google User',
+        avatar: 'https://via.placeholder.com/100',
+        provider: 'google'
+      };
+      localStorage.setItem('supabase-demo-user', JSON.stringify(demoGoogleUser));
+      return { data: { user: demoGoogleUser }, error: null };
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        }
+      });
+
+      if (error) return handleSupabaseError('signInWithGoogle', error);
+      return { data: logSuccess('signInWithGoogle', data), error: null };
+    } catch (error) {
+      return handleSupabaseError('signInWithGoogle', error);
+    }
+  }
   static async signIn(email, password) {
     if (CONFIG.DEMO_MODE) {
       const demoUser = DEMO_DATA.AUTH_USERS[email];

@@ -14,6 +14,7 @@ import TopicSelectionModal from './components/TopicSelectionModal';
 import QuestionInterface from './components/QuestionInterface';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { appData } from './data/appData';
+import { supabase } from './services/supabaseClient';
 import './components/TopicSelectionModal.css';
 import './components/QuestionInterface.css';
 import './index.css';
@@ -48,6 +49,45 @@ function App() {
   useEffect(() => {
     if (hasNavigated) return; // Prevent multiple navigations
     
+    // Check for Supabase session (Google OAuth)
+    const checkSupabaseSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user && !currentUser) {
+        const supabaseUser = {
+          id: session.user.id,
+          email: session.user.email,
+          name: session.user.user_metadata?.full_name || session.user.email,
+          role: 'student', // Default role, can be updated based on email domain or other logic
+          totalPoints: 0,
+          badges: [],
+          progress: {},
+          currentStreak: 0,
+          weeklyActivity: [0, 0, 0, 0, 0, 0, 0],
+          level: 'basic',
+          assessmentScore: 0,
+          sessionStats: {
+            totalQuestions: 0,
+            correctAnswers: 0,
+            totalPoints: 0,
+            averageTime: 0
+          }
+        };
+        
+        setCurrentUser(supabaseUser);
+        localStorage.setItem('smartTutorUser', JSON.stringify(supabaseUser));
+        setHasNavigated(true);
+        
+        // Redirect based on role
+        if (supabaseUser.role === 'admin') {
+          navigate('/admin', { replace: true });
+        } else {
+          setShowTopicSelectionModal(true);
+        }
+        return;
+      }
+    };
+    
+    // Check localStorage for existing session
     const savedUser = localStorage.getItem('smartTutorUser');
     if (savedUser && !currentUser) {
       try {
@@ -56,7 +96,7 @@ function App() {
         
         // Only navigate if we're currently on the landing page or login page
         const currentPath = window.location.pathname;
-        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
+        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup' || currentPath === '/dashboard') {
           setHasNavigated(true);
           if (user.role === 'student') {
             navigate('/student', { replace: true });
@@ -70,6 +110,9 @@ function App() {
         localStorage.removeItem('smartTutorUser');
         navigate('/');
       }
+    } else if (!savedUser) {
+      // No localStorage session, check Supabase
+      checkSupabaseSession();
     }
   }, [navigate, currentUser, hasNavigated]);
 
@@ -192,7 +235,10 @@ function App() {
     setShowTopicSelectionModal(true);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Sign out from Supabase if user is logged in via OAuth
+    await supabase.auth.signOut();
+    
     localStorage.removeItem('smartTutorUser');
     setCurrentUser(null);
     setHasNavigated(false);
