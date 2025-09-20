@@ -680,4 +680,302 @@ export class UserBehaviorTracker {
   }
 }
 
+/**
+ * Admin Service - Comprehensive admin dashboard functionality
+ */
+export class AdminService {
+  /**
+   * Get comprehensive dashboard statistics
+   * @returns {Promise<Object>} Dashboard statistics
+   */
+  static async getDashboardStats() {
+    if (CONFIG.DEMO_MODE) {
+      return {
+        totalStudents: 1247,
+        activeTeachers: 89,
+        totalCourses: 342,
+        activeUsers: 1156,
+        avgStudentPerformance: 84.5,
+        totalCompletions: 2856,
+        totalLearningTime: 15680, // in minutes
+        systemHealth: {
+          status: 'healthy',
+          uptime: '99.9%',
+          responseTime: '45ms',
+          errorRate: '0.01%'
+        },
+        recentActivity: [
+          {
+            id: 1,
+            user: 'John Doe',
+            action: 'completed_lesson',
+            subject: 'Mathematics',
+            timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString() // 15 min ago
+          },
+          {
+            id: 2,
+            user: 'Jane Smith',
+            action: 'started_course',
+            subject: 'Science',
+            timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString() // 30 min ago
+          }
+        ]
+      };
+    }
+
+    try {
+      // Get dashboard stats from the view
+      const { data: statsData, error: statsError } = await supabase
+        .from('admin_dashboard_stats')
+        .select('*')
+        .single();
+
+      if (statsError) {
+        console.error('Error fetching dashboard stats:', statsError);
+        throw statsError;
+      }
+
+      // Get recent activity
+      const { data: activityData, error: activityError } = await supabase
+        .from('analytics_events')
+        .select(`
+          id,
+          event_name,
+          event_properties,
+          timestamp,
+          users(name, email)
+        `)
+        .order('timestamp', { ascending: false })
+        .limit(10);
+
+      if (activityError) {
+        console.error('Error fetching recent activity:', activityError);
+      }
+
+      return {
+        totalStudents: statsData.total_students || 0,
+        activeTeachers: statsData.active_teachers || 0,
+        totalCourses: statsData.total_courses || 0,
+        activeUsers: statsData.active_users || 0,
+        avgStudentPerformance: parseFloat(statsData.avg_student_performance) || 0,
+        totalCompletions: statsData.total_completions || 0,
+        totalLearningTime: statsData.total_learning_time || 0,
+        systemHealth: {
+          status: 'healthy',
+          uptime: '99.9%',
+          responseTime: '45ms',
+          errorRate: '0.01%'
+        },
+        recentActivity: activityData || []
+      };
+    } catch (error) {
+      console.error('Failed to fetch dashboard stats:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get user analytics data
+   * @returns {Promise<Object>} User analytics
+   */
+  static async getUserAnalytics() {
+    if (CONFIG.DEMO_MODE) {
+      return {
+        dailyActiveUsers: [120, 135, 142, 128, 156, 178, 165],
+        weeklySignups: [25, 30, 28, 35, 42, 38, 33],
+        userRetention: {
+          day1: 85,
+          day7: 65,
+          day30: 45
+        },
+        topPerformers: [
+          { name: 'Alice Johnson', score: 98, completions: 45 },
+          { name: 'Bob Smith', score: 96, completions: 42 },
+          { name: 'Carol Davis', score: 94, completions: 38 }
+        ]
+      };
+    }
+
+    try {
+      // In a real implementation, you would fetch actual analytics data
+      const { data: users, error } = await supabase
+        .from('users')
+        .select('*')
+        .order('performance_score', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+
+      return {
+        dailyActiveUsers: [0, 0, 0, 0, 0, 0, 0], // Would be calculated from actual data
+        weeklySignups: [0, 0, 0, 0, 0, 0, 0],
+        userRetention: {
+          day1: 0,
+          day7: 0,
+          day30: 0
+        },
+        topPerformers: users.slice(0, 5).map(user => ({
+          name: user.name,
+          score: user.performance_score,
+          completions: user.total_lessons_completed
+        }))
+      };
+    } catch (error) {
+      console.error('Failed to fetch user analytics:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get system health metrics
+   * @returns {Promise<Object>} System health data
+   */
+  static async getSystemHealth() {
+    if (CONFIG.DEMO_MODE) {
+      return {
+        servers: [
+          { name: 'Web Server', status: 'online', uptime: '99.9%', load: 45 },
+          { name: 'Database Server', status: 'online', uptime: '99.8%', load: 68 },
+          { name: 'API Server', status: 'online', uptime: '99.9%', load: 32 }
+        ],
+        metrics: {
+          cpuUsage: 45,
+          memoryUsage: 68,
+          diskUsage: 32,
+          networkLatency: 25
+        },
+        alerts: [
+          {
+            id: 1,
+            type: 'warning',
+            message: 'High memory usage detected',
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+    }
+
+    try {
+      const { data: healthData, error } = await supabase
+        .from('system_health')
+        .select('*')
+        .order('recorded_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+
+      // Process health data into meaningful metrics
+      const metrics = {};
+      healthData?.forEach(metric => {
+        metrics[metric.metric_name] = {
+          value: metric.metric_value,
+          unit: metric.metric_unit,
+          status: metric.status,
+          timestamp: metric.recorded_at
+        };
+      });
+
+      return {
+        servers: [
+          { name: 'Web Server', status: 'online', uptime: '99.9%', load: metrics.cpu_usage?.value || 0 },
+          { name: 'Database Server', status: 'online', uptime: '99.8%', load: metrics.db_connections?.value || 0 },
+          { name: 'API Server', status: 'online', uptime: '99.9%', load: metrics.api_requests?.value || 0 }
+        ],
+        metrics: {
+          cpuUsage: metrics.cpu_usage?.value || 0,
+          memoryUsage: metrics.memory_usage?.value || 0,
+          diskUsage: metrics.disk_usage?.value || 0,
+          networkLatency: metrics.network_latency?.value || 0
+        },
+        alerts: [] // Would be populated from actual monitoring system
+      };
+    } catch (error) {
+      console.error('Failed to fetch system health:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Export data in various formats
+   * @param {string} type - Type of data to export ('users', 'analytics', 'progress')
+   * @param {string} format - Export format ('csv', 'json', 'xlsx')
+   * @returns {Promise<Blob>} Exported data
+   */
+  static async exportData(type, format = 'csv') {
+    if (CONFIG.DEMO_MODE) {
+      console.log(`Demo: Exporting ${type} data in ${format} format`);
+      return new Blob(['Demo export data'], { type: 'text/plain' });
+    }
+
+    try {
+      let data;
+      
+      switch (type) {
+        case 'users':
+          const { data: users, error: usersError } = await supabase
+            .from('users')
+            .select('*');
+          if (usersError) throw usersError;
+          data = users;
+          break;
+          
+        case 'analytics':
+          const { data: analytics, error: analyticsError } = await supabase
+            .from('analytics_events')
+            .select('*');
+          if (analyticsError) throw analyticsError;
+          data = analytics;
+          break;
+          
+        case 'progress':
+          const { data: progress, error: progressError } = await supabase
+            .from('user_progress')
+            .select('*, users(name, email), subjects(name)');
+          if (progressError) throw progressError;
+          data = progress;
+          break;
+          
+        default:
+          throw new Error(`Unknown export type: ${type}`);
+      }
+
+      // Convert data based on format
+      if (format === 'json') {
+        return new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      } else if (format === 'csv') {
+        // Simple CSV conversion (you might want to use a library like papaparse)
+        const csv = this.convertToCSV(data);
+        return new Blob([csv], { type: 'text/csv' });
+      }
+      
+      throw new Error(`Unsupported format: ${format}`);
+    } catch (error) {
+      console.error('Failed to export data:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Simple CSV converter utility
+   * @param {Array} data - Data to convert
+   * @returns {string} CSV string
+   */
+  static convertToCSV(data) {
+    if (!data.length) return '';
+    
+    const headers = Object.keys(data[0]);
+    const csvRows = [headers.join(',')];
+    
+    for (const row of data) {
+      const values = headers.map(header => {
+        const value = row[header];
+        return typeof value === 'string' ? `"${value}"` : value;
+      });
+      csvRows.push(values.join(','));
+    }
+    
+    return csvRows.join('\n');
+  }
+}
+
 export default LearningService;

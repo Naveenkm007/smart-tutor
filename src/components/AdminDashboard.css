@@ -1250,6 +1250,46 @@
   border-top: 1px solid #e2e8f0;
 }
 
+/* Loading and Error States */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 0.75rem;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fca5a5;
+  backdrop-filter: blur(10px);
+}
+
+.error-banner button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.error-banner button:hover {
+  background: #b91c1c;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .admin-body {
